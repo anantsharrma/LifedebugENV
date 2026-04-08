@@ -267,6 +267,15 @@ app.post('/internal-api/diagnose', (req, res) => {
   }
 });
 
+app.get('/internal-api/state', (req, res) => {
+  const sessionId = req.query.session_id as string;
+  const session = sessions[sessionId];
+  if (!session) return res.status(404).json({ detail: "Session not found" });
+  
+  session.lastActive = Date.now();
+  res.json({ observation: session.env.getObs() });
+});
+
 app.get('/internal-api/tasks', (req, res) => {
   res.json(TASKS.map(t => ({ id: t.id, difficulty: t.difficulty, description: t.description })));
 });

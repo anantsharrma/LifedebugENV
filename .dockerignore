@@ -35,6 +35,5 @@ Thumbs.db
 # Project specific
 README.md
 metadata.json
-openenv.yaml
 scripts/
 tests/

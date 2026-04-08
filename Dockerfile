@@ -1,10 +1,11 @@
 # --- Build Stage ---
-FROM node:18-slim AS builder
+FROM node:20-slim AS builder
 
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
+# Only copy package.json to force a fresh install for the current platform (Linux)
+# This avoids "Cannot find native binding" errors caused by platform-specific lockfiles.
+COPY package.json ./
 RUN npm install
 
 # Copy all files and build the frontend
@@ -12,24 +13,24 @@ COPY . .
 RUN npm run build
 
 # --- Production Stage ---
-FROM node:18-slim
+FROM node:20-slim
 
-# Set up a non-root user for Hugging Face (UID 1000)
-RUN useradd -m -u 1000 user
-USER user
-ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH
+# Hugging Face expects UID 1000. In node:slim, this is the 'node' user.
+USER node
+ENV HOME=/home/node \
+    PATH=/home/node/.local/bin:$PATH
 
-WORKDIR /app
+WORKDIR $HOME/app
 
-# Copy package files and install production dependencies
-COPY --chown=user:user package*.json ./
+# Only copy package.json for production install
+COPY --chown=node:node package.json ./
 RUN npm install --production
 
 # Copy built assets and server code
-COPY --chown=user:user --from=builder /app/dist ./dist
-COPY --chown=user:user --from=builder /app/server.ts ./
-COPY --chown=user:user --from=builder /app/tsconfig.json ./
+COPY --chown=node:node --from=builder /app/dist ./dist
+COPY --chown=node:node --from=builder /app/server.ts ./
+COPY --chown=node:node --from=builder /app/tsconfig.json ./
+COPY --chown=node:node --from=builder /app/openenv.yaml ./
 
 # Set environment variables
 ENV NODE_ENV=production

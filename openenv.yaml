@@ -1,0 +1,44 @@
+name: LifeDebugEnv
+version: 1.0.0
+description: A lifestyle diagnostic RL environment for identifying root causes of symptoms from lifestyle logs.
+tasks:
+  - id: easy_1
+    difficulty: easy
+    description: Identify 1 root cause from 5 variables.
+  - id: medium_1
+    difficulty: medium
+    description: Identify 2 root causes from 5 variables.
+  - id: hard_1
+    difficulty: hard
+    description: Identify 3 root causes from 5 variables.
+action_space:
+  type: discrete
+  actions:
+    - inspect: View correlation for a variable (cost: -0.05)
+    - test: Run diagnostic test for a variable (cost: -0.10)
+    - diagnose: Submit final list of root causes (reward: +1.0 for correct, -0.5 for incorrect)
+observation_space:
+  type: dict
+  properties:
+    task_id: string
+    logs: array of objects (7 days of lifestyle data)
+    symptoms: array of numbers (7 days of symptom scores)
+    test_results: object (results of diagnostic tests)
+    history: array of previous actions
+    steps_left: integer
+reward_range: [0.0, 1.0]
+api_base: /internal-api
+endpoints:
+  reset: POST /internal-api/reset
+  inspect: POST /internal-api/inspect
+  test: POST /internal-api/test
+  diagnose: POST /internal-api/diagnose
+  state: GET /internal-api/state
+  tasks: GET /internal-api/tasks
+max_steps: 10
+variables:
+  - caffeine_late
+  - high_gi_lunch
+  - low_hydration
+  - poor_sleep_timing
+  - high_stress
