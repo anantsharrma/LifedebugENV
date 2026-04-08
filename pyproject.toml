@@ -12,8 +12,13 @@ authors = [
 dependencies = [
     "requests",
     "openai",
+    "openenv-core>=0.2.0",
 ]
 requires-python = ">=3.9"
 
+[project.scripts]
+server = "server.app:main"
+
 [tool.setuptools]
+packages = ["server"]
 py-modules = ["inference"]

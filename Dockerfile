@@ -36,10 +36,12 @@ COPY --chown=node:node --from=builder /app/server.ts ./
 COPY --chown=node:node --from=builder /app/tsconfig.json ./
 COPY --chown=node:node --from=builder /app/openenv.yaml ./
 COPY --chown=node:node --from=builder /app/pyproject.toml ./
+COPY --chown=node:node --from=builder /app/uv.lock ./
 COPY --chown=node:node --from=builder /app/inference.py ./
+COPY --chown=node:node --from=builder /app/server ./server
 
 # Install python dependencies
-RUN pip3 install requests openai --break-system-packages
+RUN pip3 install requests openai openenv-core>=0.2.0 --break-system-packages
 
 # Set environment variables
 ENV NODE_ENV=production
