@@ -15,6 +15,10 @@ RUN npm run build
 # --- Production Stage ---
 FROM node:20-slim
 
+# Install Python and pip for "multi-mode" support (inference.py)
+RUN apt-get update && apt-get install -y python3 python3-pip && \
+    rm -rf /var/lib/apt/lists/*
+
 # Hugging Face expects UID 1000. In node:slim, this is the 'node' user.
 USER node
 ENV HOME=/home/node \
@@ -31,6 +35,11 @@ COPY --chown=node:node --from=builder /app/dist ./dist
 COPY --chown=node:node --from=builder /app/server.ts ./
 COPY --chown=node:node --from=builder /app/tsconfig.json ./
 COPY --chown=node:node --from=builder /app/openenv.yaml ./
+COPY --chown=node:node --from=builder /app/pyproject.toml ./
+COPY --chown=node:node --from=builder /app/inference.py ./
+
+# Install python dependencies
+RUN pip3 install requests openai --break-system-packages
 
 # Set environment variables
 ENV NODE_ENV=production
