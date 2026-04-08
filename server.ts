@@ -204,7 +204,7 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
-app.post('/internal-api/reset', (req, res) => {
+app.post('/reset', (req, res) => {
   console.log(`DEBUG: Reset request: task_id=${req.query.task_id}, session_id=${req.query.session_id}`);
   const taskId = req.query.task_id as string || "easy_1";
   let sessionId = req.query.session_id as string;
@@ -225,7 +225,7 @@ app.post('/internal-api/reset', (req, res) => {
   }
 });
 
-app.post('/internal-api/inspect', (req, res) => {
+app.post('/inspect', (req, res) => {
   const { session_id, variable } = req.body;
   const session = sessions[session_id];
   if (!session) return res.status(404).json({ detail: "Session not found" });
@@ -239,7 +239,7 @@ app.post('/internal-api/inspect', (req, res) => {
   }
 });
 
-app.post('/internal-api/test', (req, res) => {
+app.post('/test', (req, res) => {
   const { session_id, variable } = req.body;
   const session = sessions[session_id];
   if (!session) return res.status(404).json({ detail: "Session not found" });
@@ -253,7 +253,7 @@ app.post('/internal-api/test', (req, res) => {
   }
 });
 
-app.post('/internal-api/diagnose', (req, res) => {
+app.post('/diagnose', (req, res) => {
   const { session_id, causes } = req.body;
   const session = sessions[session_id];
   if (!session) return res.status(404).json({ detail: "Session not found" });
@@ -267,7 +267,7 @@ app.post('/internal-api/diagnose', (req, res) => {
   }
 });
 
-app.get('/internal-api/state', (req, res) => {
+app.get('/state', (req, res) => {
   const sessionId = req.query.session_id as string;
   const session = sessions[sessionId];
   if (!session) return res.status(404).json({ detail: "Session not found" });
@@ -276,11 +276,11 @@ app.get('/internal-api/state', (req, res) => {
   res.json({ observation: session.env.getObs() });
 });
 
-app.get('/internal-api/tasks', (req, res) => {
+app.get('/tasks', (req, res) => {
   res.json(TASKS.map(t => ({ id: t.id, difficulty: t.difficulty, description: t.description })));
 });
 
-app.get('/internal-api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({ status: "ok", message: "Node backend is healthy" });
 });
 

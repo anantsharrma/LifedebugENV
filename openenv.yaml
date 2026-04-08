@@ -27,14 +27,14 @@ observation_space:
     history: array of previous actions
     steps_left: integer
 reward_range: [0.0, 1.0]
-api_base: /internal-api
+api_base: /
 endpoints:
-  reset: POST /internal-api/reset
-  inspect: POST /internal-api/inspect
-  test: POST /internal-api/test
-  diagnose: POST /internal-api/diagnose
-  state: GET /internal-api/state
-  tasks: GET /internal-api/tasks
+  reset: POST /reset
+  inspect: POST /inspect
+  test: POST /test
+  diagnose: POST /diagnose
+  state: GET /state
+  tasks: GET /tasks
 max_steps: 10
 variables:
   - caffeine_late

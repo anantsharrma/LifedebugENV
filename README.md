@@ -75,10 +75,10 @@ The following scores were achieved using a `gpt-4o` baseline agent:
 ## API Usage
 
 ### Reset Environment
-`POST /internal-api/reset?task_id=easy_1`
+`POST /reset?task_id=easy_1`
 
 ### Inspect Variable
-`POST /internal-api/inspect`
+`POST /inspect`
 ```json
 {
   "session_id": "UUID",
@@ -87,7 +87,7 @@ The following scores were achieved using a `gpt-4o` baseline agent:
 ```
 
 ### Run Test
-`POST /internal-api/test`
+`POST /test`
 ```json
 {
   "session_id": "UUID",
@@ -96,7 +96,7 @@ The following scores were achieved using a `gpt-4o` baseline agent:
 ```
 
 ### Submit Diagnosis
-`POST /internal-api/diagnose`
+`POST /diagnose`
 ```json
 {
   "session_id": "UUID",
@@ -105,4 +105,4 @@ The following scores were achieved using a `gpt-4o` baseline agent:
 ```
 
 ### Get Current State
-`GET /internal-api/state?session_id=UUID`
+`GET /state?session_id=UUID`

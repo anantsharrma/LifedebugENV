@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/internal-api';
+const API_BASE_URL = '';
 
 export const api = {
   reset: async (taskId: string = "easy_1", sessionId?: string) => {
