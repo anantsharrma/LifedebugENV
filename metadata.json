@@ -1,0 +1,5 @@
+{
+  "name": "LifeDebugEnv (OpenEnv Spec)",
+  "description": "A real-world diagnostic environment where an agent identifies lifestyle root causes from noisy logs, compliant with the OpenEnv specification.",
+  "requestFramePermissions": []
+}

@@ -1,11 +1,51 @@
-<div align="center">
+---
+title: LifeDebugEnv
+emoji: 🧬
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+app_port: 7860
+---
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+# LifeDebugEnv
 
-  <h1>Built with AI Studio</h2>
+A lifestyle diagnostic environment for RL agents and human players.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Features
+- **Synthetic Data Generation**: Realistic lifestyle logs with confounders and noise.
+- **Diagnostic Tasks**: Multiple difficulty levels (Easy, Medium, Hard).
+- **Interactive API**: FastAPI-based backend for seamless integration.
+- **Dockerized**: Optimized for Hugging Face Spaces and web deployment.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## API Usage
 
-</div>
+### Reset Environment
+`POST /api/reset?task_id=easy_1`
+
+### Inspect Variable
+`POST /api/inspect`
+```json
+{
+  "session_id": "UUID",
+  "variable": "caffeine_late"
+}
+```
+
+### Run Test
+`POST /api/test`
+```json
+{
+  "session_id": "UUID",
+  "variable": "caffeine_late"
+}
+```
+
+### Submit Diagnosis
+`POST /api/diagnose`
+```json
+{
+  "session_id": "UUID",
+  "causes": ["caffeine_late"]
+}
+```
