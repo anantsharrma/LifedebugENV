@@ -130,7 +130,7 @@ class LifeDebugEnv {
     this.stepCount++;
     this.actionsTaken.push(action);
     
-    let stepReward = 0;
+    let stepReward = 0.01;
     let reason = "In progress";
 
     if (action.action_type === LifeDebugActionType.INSPECT) {
@@ -151,10 +151,10 @@ class LifeDebugEnv {
       const correct = this.task.root_causes.every(c => action.causes?.includes(c)) && 
                       action.causes.every(c => this.task.root_causes.includes(c));
       if (correct) {
-        stepReward += 1.0;
+        stepReward += 0.99;
         reason = "Correct diagnosis! Major reward granted.";
       } else {
-        stepReward -= 0.5;
+        stepReward -= 0.49;
         reason = `Incorrect diagnosis. Penalty applied. The root causes were: ${this.task.root_causes.join(", ")}`;
       }
     } else if (this.stepCount >= this.maxSteps) {

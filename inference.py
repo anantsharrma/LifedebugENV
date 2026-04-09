@@ -51,7 +51,7 @@ def run_task(task_id):
         obs = data["observation"]
     except Exception as e:
         print(f"[DEBUG] Error resetting environment: {e}")
-        log_end(success=False, steps=0, score=0.0, rewards=[])
+        log_end(success=False, steps=0, score=0.01, rewards=[])
         return
 
     done = False
@@ -132,7 +132,7 @@ def run_task(task_id):
                 action_str = f"diagnose({causes})"
             else:
                 last_error = f"Unknown action: {action_type}"
-                log_step(step=step, action="none", reward=0.0, done=True, error=last_error)
+                log_step(step=step, action="none", reward=0.01, done=True, error=last_error)
                 break
                 
             res.raise_for_status()
@@ -153,12 +153,14 @@ def run_task(task_id):
             
         except Exception as e:
             last_error = str(e)
-            log_step(step=step, action="error", reward=0.0, done=True, error=last_error)
+            log_step(step=step, action="error", reward=0.01, done=True, error=last_error)
             break
             
     # 5. Log the end of the task
-    # Score is normalized to [0, 1]. Total reward can be negative, so we clamp.
-    final_score = max(0.0, min(1.0, total_reward))
+    # Score must be strictly between 0 and 1 (not 0.0 and not 1.0)
+    # We map the [0, 1] range to [0.01, 0.99]
+    clamped_reward = max(0.0, min(1.0, total_reward))
+    final_score = 0.01 + (clamped_reward * 0.98)
     log_end(success=success, steps=step, score=final_score, rewards=rewards_history)
 
 if __name__ == "__main__":
